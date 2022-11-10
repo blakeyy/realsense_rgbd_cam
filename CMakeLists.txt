@@ -6,7 +6,7 @@ project(Test)
 find_library(REALSENSE2_FOUND realsense2 HINTS ${LIBRARY_DIR} REQUIRED)
 
 # getting-started
-add_executable(test color.cpp)
+add_executable(test optical_flow.cpp)
 include_directories(test ${ADDITIONAL_INCLUDE_DIRS})
 target_link_libraries(test ${REALSENSE2_FOUND})
 set_target_properties (test PROPERTIES FOLDER Examples)
