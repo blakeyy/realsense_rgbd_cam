@@ -32,7 +32,7 @@ int main(){
     
     // Obtain first image and set up two feature vectors
     cv::Mat image_prev, image_next, color;
-    std::vector<cv::Point2f> features_prev, features_next;
+    std::vector<cv::Point2f> features_prev, features_next, optical_flow;
     
     getImage(pipe, image_next, color);
     
@@ -43,6 +43,7 @@ int main(){
                             0.01,     // quality level
                             10     // min distance between two features
     );
+    optical_flow = features_next;
     while (1)
     {
         image_prev = image_next.clone();
@@ -58,14 +59,15 @@ int main(){
             status,    // tracking success
             err      // tracking error
         );
-        
-        for (size_t i = 0; i < features_next.size(); i++)
+        optical_flow.insert(optical_flow.end(), features_next.begin(), features_next.end());
+
+        for (size_t i = 0; i < optical_flow.size(); i++)
         {
-            cv::circle(color, features_next[i], 1, cv::Scalar(0,0,255), 2);
+            cv::circle(color, optical_flow[i], 1, cv::Scalar(0,0,255), 2);
         }
         cv::imshow("Display image",  color);
         
-        cv::waitKey(3);
+        cv::waitKey(1);
     }
     return 0;
 }
